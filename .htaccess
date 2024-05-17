@@ -1,0 +1,4 @@
+<IfModule mod_mime.c>
+    AddType application/font-woff2 .woff2
+    AddType application/font-woff .woff
+</IfModule>
