@@ -197,8 +197,17 @@ th, td {
             </div>
         </div>
         <div id="task-view" class="view" style="display:none;">
-            <p>Task view content</p>
+    <div class="gantt-chart">
+        <div class="gantt-header">
+            <!-- Date headers will be dynamically generated here -->
         </div>
+        <div class="gantt-body">
+            <!-- Task bars will be dynamically generated here -->
+        </div>
+    </div>
+</div>
+
+
     </div>
 
     <!-- Add Task Modal -->
@@ -283,6 +292,48 @@ th, td {
         </div>
     </div>
 
+	<!-- show Task Modal -->
+    <div class="modal" id="taskDetailsModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Task Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" id="dismissShowModal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <input type="hidden" id="showTaskId" name="taskId">
+                        <div class="form-group">
+                            <label for="showTaskTitle"><i class="fas fa-calendar-alt"></i> Task Title</label>
+							<span id="showTaskTitle"></span>
+                            
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="showStartDate"><i class="fas fa-calendar-alt"></i> Start Date</label>
+                                <span id="showStartDate"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="showEndDate"><i class="fas fa-calendar-alt"></i> End Date</label>
+                               <span id="showEndDate"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="showAssignOption"><i class="fas fa-sync"></i> Assign</label>
+							<span id="showAssignOption"></span>
+                        </div>
+                        <button type="button" class="btn btn-danger" id="deleteTaskButton">Delete Task</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="dismissShowModal" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -362,15 +413,18 @@ th, td {
 
                         var startDate = new Date(task.start_date);
                         var endDate = new Date(task.end_date);
-                        var dateRow = '<tr>';
+                         var dateRow = '<tr onclick="openTaskDetailsModal(' + task.id + ');">';
 
                         for (var d = new Date("2024-05-10"); d <= new Date("2024-05-23"); d.setDate(d.getDate() + 1)) {
                             var dateCell = '<td></td>';
                             if (d >= startDate && d <= endDate) {
-                                var color = index % 3 === 0 ? 'red' : index % 3 === 1 ? 'green' : 'yellow';
+                                var color = index % 3 === 0 ? '#7CB9E8' : index % 3 === 1 ? '#FF4500' : '#AFE1AF';
                                 dateCell = '<td class="task-bar" style="background-color: ' + color + '"><span class="task-name">' + task.task_name + '</span></td>';
                             }
                             dateRow += dateCell;
+							if(index % 3 !== 0 && index % 3 !== 1){
+								index=0;
+							}
                         }
 
                         dateRow += '</tr>';
@@ -388,6 +442,56 @@ th, td {
         $(document).on('click', '#dismissEditModal, #dismissEditModalIcon', function() {
             $("#editModal").hide();
         });
+        $(document).on('click', '#dismissShowModal, #dismissShowModalIcon', function() {
+            $("#taskDetailsModal").hide();
+        });
+		function openTaskDetailsModal(taskId) {
+			// Fetch task details using AJAX
+			$.ajax({
+				url: 'fetch_task_details.php', // This PHP script should return the task details
+				method: 'GET',
+				data: { taskId: taskId },
+				dataType: 'json',
+				success: function(task) {
+					// Populate the modal fields with task details
+					$('#showTaskTitle').text(task.task_name);
+					$('#showStartDate').text(task.start_date);
+					$('#showEndDate').text(task.end_date);
+					$('#showAssignOption').text(task.assigned); // Assuming this is the correct field
+					$('#deleteTaskButton').attr('data-task-id', task.id).attr('onclick', 'deleteTask(' + task.id + ')');
+
+					// Show the task details modal
+					$("#taskDetailsModal").show();
+				}
+			});
+}
+		// Function to delete task
+		function deleteTask(taskId) {
+		console.log(taskId);
+		if (confirm("Are you sure you want to delete this task?")) {
+			// Perform deletion using AJAX
+			$.ajax({
+				url: 'delete_task.php',
+				method: 'POST',
+				data: { taskId: taskId },
+				success: function(response) {
+					if (response === 'success') {
+						alert("Task deleted successfully!");
+						location.reload(); // Reload the page after deletion
+					} else {
+						alert("Error deleting task: " + response);
+					}
+				},
+				error: function(xhr, status, error) {
+					location.reload();
+					// alert("An error occurred while deleting the task.");
+					console.error(error);
+				}
+			});
+		}
+	}
+	
+</script>
     </script>
 </body>
 </html>
