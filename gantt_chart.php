@@ -340,21 +340,41 @@ th, td {
             });
             
             // Fetch and display tasks in the left table
+                // Fetch and display tasks in the left table
             $.ajax({
                 url: 'fetch_tasks.php',
                 method: 'GET',
                 dataType: 'json',
                 success: function(data) {
                     var tasksTableBody = $('#tasks-table tbody');
+                    var dateTableBody = $('#date-table-body');
                     tasksTableBody.empty(); // Clear the table
+                    dateTableBody.empty(); // Clear the date table
+
                     $.each(data, function(index, task) {
-                        var row = '<tr>'+
+                        var taskRow = '<tr>'+
                             '<td>' + task.task_name + '</td>'+
                             '<td>' + task.start_date + '</td>'+
                             '<td><img src="' + task.image + '" class="avatar">' + task.name + '</td>'+
                             '<td><i class="fas fa-edit" onclick="openEditTaskModal(' + task.id + ')"></i></td>'+
                         '</tr>';
-                        tasksTableBody.append(row);
+                        tasksTableBody.append(taskRow);
+
+                        var startDate = new Date(task.start_date);
+                        var endDate = new Date(task.end_date);
+                        var dateRow = '<tr>';
+
+                        for (var d = new Date("2024-05-10"); d <= new Date("2024-05-23"); d.setDate(d.getDate() + 1)) {
+                            var dateCell = '<td></td>';
+                            if (d >= startDate && d <= endDate) {
+                                var color = index % 3 === 0 ? 'red' : index % 3 === 1 ? 'green' : 'yellow';
+                                dateCell = '<td class="task-bar" style="background-color: ' + color + '"><span class="task-name">' + task.task_name + '</span></td>';
+                            }
+                            dateRow += dateCell;
+                        }
+
+                        dateRow += '</tr>';
+                        dateTableBody.append(dateRow);
                     });
                 }
             });
