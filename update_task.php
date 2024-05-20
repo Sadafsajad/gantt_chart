@@ -1,5 +1,6 @@
 <?php
 include 'db.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $taskId = $_POST['taskId'];
     $taskTitle = $_POST['taskTitle'];
@@ -7,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $endDate = $_POST['endDate'];
     $assignOption = $_POST['AssignOption'];
 
-    $query = "UPDATE tasks SET task_name = ?, start_date = ?, end_date = ?, assigned_to = ? WHERE id = ?";
+    $query = "UPDATE tasks SET task_name = ?, start_date = ?, end_date = ?, assigned = ? WHERE id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param('sssii', $taskTitle, $startDate, $endDate, $assignOption, $taskId);
 

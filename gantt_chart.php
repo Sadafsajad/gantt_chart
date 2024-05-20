@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Toggle View</title>
-	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toggle View</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-..." crossorigin="anonymous" />
-	<style>
+   	<style>
 	body {
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
@@ -145,7 +145,6 @@ th, td {
         }
 
 </style>
-	<!-- <link rel="stylesheet" href="styles.css"> -->
 </head>
 <body>
     <div class="main">
@@ -162,24 +161,23 @@ th, td {
                                 <th>Title</th>
                                 <th>Start date</th>
                                 <th>Assigned</th>
-                                <th> <i class="fas text-black fa-plus mr-2" id="addtask"onclick="openAddTaskModal()"></i></th>
+                                <th><i class="fas text-black fa-plus mr-2" id="addtask" onclick="openAddTaskModal()"></i></th>
                             </tr>
                         </thead>
                         <tbody>
-                            
+                            <!-- Rows will be populated by JavaScript -->
                         </tbody>
                     </table>
                 </div>
                 <div class="right-table">
-                    <table>
+                    <table id="date-table">
                         <thead>
                             <tr>
-                               
                                 <!-- Fill in the dates as needed -->
                                 <th>10</th>
                                 <th>11</th>
                                 <th>12</th>
-                                <th>13</th>
+								<th>13</th>
                                 <th>14</th>
                                 <th>15</th>
                                 <th>16</th>
@@ -189,60 +187,10 @@ th, td {
                                 <th>20</th>
                                 <th>21</th>
                                 <th>22</th>
-                                <th>23</th>
-                                <th>24</th>
-                            </tr>
+                                <th>23</th>                            </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <!-- Fill in the task bars as needed -->
-                               
-                                <td colspan="4"></td>
-                                <td colspan="1"></td>
-                                <td colspan="2"></td>
-                                <td colspan="1"></td>
-                                <td colspan="2"></td>
-                                <td colspan="1"></td>
-                                <td colspan="1"></td>
-                                <td colspan="2"></td>
-                                <td colspan="1"></td>
-                            </tr>
-                            <tr>
-                               
-                                <td colspan="4"></td>
-                                <td colspan="1" class="task-bar"></td>
-                                <td colspan="2" class="task-bar"></td>
-                                <td colspan="1"></td>
-                                <td colspan="2"></td>
-                                <td colspan="1" class="task-bar"></td>
-                                <td colspan="1" class="task-bar"></td>
-                                <td colspan="2"></td>
-                                <td colspan="1"></td>
-                            </tr>
-                            <tr>
-                               
-                                <td colspan="4"></td>
-                                <td colspan="1"></td>
-                                <td colspan="2"></td>
-                                <td colspan="1"></td>
-                                <td colspan="2" class="task-bar"></td>
-                                <td colspan="1"></td>
-                                <td colspan="1"></td>
-                                <td colspan="2"></td>
-                                <td colspan="1"></td>
-                            </tr>
-                            <tr>
-                               
-                                <td colspan="4"></td>
-                                <td colspan="1"></td>
-                                <td colspan="2"></td>
-                                <td colspan="1"></td>
-                                <td colspan="2" class="task-bar"></td>
-                                <td colspan="1"></td>
-                                <td colspan="1"></td>
-                                <td colspan="2"></td>
-                                <td colspan="1"></td>
-                            </tr>
+                        <tbody id="date-table-body">
+                            <!-- Rows will be populated by JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -252,14 +200,14 @@ th, td {
             <p>Task view content</p>
         </div>
     </div>
-	<!-- Modal -->
-	   <div class="modal" id="assignModal">
+
+    <!-- Add Task Modal -->
+    <div class="modal" id="assignModal">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Add Task</h5>
-                    <button type="button" class="close" data-dismiss="modal" id="dismissAssignModalIcon"
-                        aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" id="dismissAssignModalIcon" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -268,14 +216,12 @@ th, td {
                         <input type="hidden" name="addChecklist" value="true">
                         <div class="form-group">
                             <label for="eventTitle"><i class="fas fa-calendar-alt"></i> Task Title</label>
-                            <input type="text" class="form-control" id="taskTitle" name="taskTitle"
-                                placeholder="Event title" required>
+                            <input type="text" class="form-control" id="taskTitle" name="taskTitle" placeholder="Event title" required>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="startDate"><i class="fas fa-calendar-alt"></i> Start Date</label>
-                                <input type="date" class="form-control" id="startDate" name="startDate"
-                                    value="2024-05-20">
+                                <input type="date" class="form-control" id="startDate" name="startDate" value="2024-05-20">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="endDate"><i class="fas fa-calendar-alt"></i> End Date</label>
@@ -284,75 +230,144 @@ th, td {
                         </div>
                         <div class="form-group">
                             <label for="AssignOption"><i class="fas fa-sync"></i> Assign</label>
-                            <select class="form-control" id="AssignOption" name="AssignOption">
-                                
-                            </select>
-                        </div>
+                            <select class="form-control" id="AssignOption" name="AssignOption"></select>
                         </div>
                         <button type="submit" class="btn btn-primary">Save</button>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="dismissAssignModal"
-                        data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" id="dismissAssignModal" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script>
-	function showView(view) {
-		var resourceView = document.getElementById('resource-view');
-		var taskView = document.getElementById('task-view');
-		
-		if (view === 'resource') {
-			resourceView.style.display = 'block';
-			taskView.style.display = 'none';
-		} else if (view === 'task') {
-			resourceView.style.display = 'none';
-			taskView.style.display = 'block';
-		}
-	}
-	// When the user clicks the icon, open the modal
-	function openAddTaskModal() {
-		$("#assignModal").show();
-	}
-$(document).ready(function() {
-	// Populate the select tag with assignees
-	$.ajax({
-		url: 'fetch_assignees.php',
-		method: 'GET',
-		success: function(data) {
-			console.log(data);
-			$('#AssignOption').html(data);
-		}
-	});
-	
-	// Fetch and display tasks in the left table
-	$.ajax({
-		url: 'fetch_tasks.php',
-		method: 'GET',
-		dataType: 'json',
-		success: function(data) {
-			var tasksTableBody = $('#tasks-table tbody');
-			tasksTableBody.empty(); // Clear the table
-			$.each(data, function(index, task) {
-				var row = '<tr>'+
-					'<td>' + task.task_name + '</td>'+
-					'<td>' + task.start_date + '</td>'+
-					'<td><img src="' + task.image + '" class="avatar">' + task.name + '</td>'+
-					'<td></td>'+
-				'</tr>';
-				tasksTableBody.append(row);
-			});
-		}
-	});
-});
-</script>
+    <!-- Edit Task Modal -->
+    <div class="modal" id="editModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Task</h5>
+                    <button type="button" class="close" data-dismiss="modal" id="dismissEditModalIcon" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editTaskForm" method="post" action="update_task.php">
+                        <input type="hidden" id="editTaskId" name="taskId">
+                        <div class="form-group">
+                            <label for="editTaskTitle"><i class="fas fa-calendar-alt"></i> Task Title</label>
+                            <input type="text" class="form-control" id="editTaskTitle" name="taskTitle" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="editStartDate"><i class="fas fa-calendar-alt"></i> Start Date</label>
+                                <input type="date" class="form-control" id="editStartDate" name="startDate">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="editEndDate"><i class="fas fa-calendar-alt"></i> End Date</label>
+                                <input type="date" class="form-control" id="editEndDate" name="endDate">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="editAssignOption"><i class="fas fa-sync"></i> Assign</label>
+                            <select class="form-control" id="editAssignOption" name="AssignOption"></select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="dismissEditModal" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        function showView(view) {
+            var resourceView = document.getElementById('resource-view');
+            var taskView = document.getElementById('task-view');
+            
+            if (view === 'resource') {
+                resourceView.style.display = 'block';
+                taskView.style.display = 'none';
+            } else if (view === 'task') {
+                resourceView.style.display = 'none';
+                taskView.style.display = 'block';
+            }
+        }
+        
+        // When the user clicks the icon, open the modal
+        function openAddTaskModal() {
+            $("#assignModal").show();
+        }
+
+        // Function to open the edit modal
+        function openEditTaskModal(taskId) {
+            // Fetch task details using AJAX
+            $.ajax({
+                url: 'fetch_task_details.php', // This PHP script should return the task details
+                method: 'GET',
+                data: { taskId: taskId },
+                dataType: 'json',
+                success: function(task) {
+                    // Populate the modal fields with task details
+                    $('#editTaskId').val(task.id);
+                    $('#editTaskTitle').val(task.task_name);
+                    $('#editStartDate').val(task.start_date);
+                    $('#editEndDate').val(task.end_date);
+                    $('#editAssignOption').val(task.assigned); // Assuming this is the correct field
+                    // Show the edit modal
+                    $("#editModal").show();
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            // Populate the select tag with assignees for both add and edit modals
+            $.ajax({
+                url: 'fetch_assignees.php',
+                method: 'GET',
+                success: function(data) {
+                    $('#AssignOption').html(data);
+                    $('#editAssignOption').html(data);
+                }
+            });
+            
+            // Fetch and display tasks in the left table
+            $.ajax({
+                url: 'fetch_tasks.php',
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    var tasksTableBody = $('#tasks-table tbody');
+                    tasksTableBody.empty(); // Clear the table
+                    $.each(data, function(index, task) {
+                        var row = '<tr>'+
+                            '<td>' + task.task_name + '</td>'+
+                            '<td>' + task.start_date + '</td>'+
+                            '<td><img src="' + task.image + '" class="avatar">' + task.name + '</td>'+
+                            '<td><i class="fas fa-edit" onclick="openEditTaskModal(' + task.id + ')"></i></td>'+
+                        '</tr>';
+                        tasksTableBody.append(row);
+                    });
+                }
+            });
+        });
+
+        // Function to close modals
+        $(document).on('click', '#dismissAssignModal, #dismissAssignModalIcon', function() {
+            $("#assignModal").hide();
+        });
+
+        $(document).on('click', '#dismissEditModal, #dismissEditModalIcon', function() {
+            $("#editModal").hide();
+        });
+    </script>
 </body>
 </html>
