@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toggle View</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-..." crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js"></script>
    	<style>
 	body {
     font-family: Arial, sans-serif;
@@ -143,6 +147,20 @@ th, td {
                 margin: 1.75rem auto;
             }
         }
+        .resizable {
+            resize: both;
+            overflow: auto;
+        }
+        .draggable {
+        border: 1px solid #ccc;
+        margin: 10px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .resizable .ui-resizable-handle {
+        background-color: #f0f0f0;
+    }
+
 
 </style>
 </head>
@@ -151,6 +169,7 @@ th, td {
         <div class="tabs">
             <button class="tab-button" onclick="showView('resource')">Resource view</button>
             <button class="tab-button" onclick="showView('task')">Task view</button>
+            <button class="tab-button" onclick="showView('chart')">Task view</button>
         </div>
         <div id="resource-view" class="view">
             <div class="table-container">
@@ -221,6 +240,11 @@ th, td {
 				</tbody>
             </table>
 		</div>
+        <div id="chart" class="table-container">
+            <div id="chart_div" class="draggable resizable" style="width: 400px; height: 300px; border: 1px solid #ccc;"></div>
+            <div id="piechart_3d" class="draggable resizable" style="width: 400px; height: 300px; border: 1px solid #ccc;"></div>
+        </div>
+    </div>
     </div>
 
     <!-- Add Task Modal -->
@@ -352,17 +376,26 @@ th, td {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/$VERSION/dragula.min.js'></script>
     <script>
         function showView(view) {
             var resourceView = document.getElementById('resource-view');
             var taskView = document.getElementById('task-view');
+            var chartView = document.getElementById('chart');
             
             if (view === 'resource') {
                 resourceView.style.display = 'block';
                 taskView.style.display = 'none';
+                chartView.style.display = 'none';
             } else if (view === 'task') {
                 resourceView.style.display = 'none';
+                chartView.style.display = 'none';
                 taskView.style.display = 'block';
+            }else if (view === 'chart') {
+                resourceView.style.display = 'none';
+                taskView.style.display = 'none';
+                chartView.style.display = 'block';
             }
         }
         
@@ -508,6 +541,148 @@ th, td {
 	}
 	
 </script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Dinosaur', 'Length'],
+          ['Acrocanthosaurus (top-spined lizard)', 12.2],
+          ['Albertosaurus (Alberta lizard)', 9.1],
+          ['Allosaurus (other lizard)', 12.2],
+          ['Apatosaurus (deceptive lizard)', 22.9],
+          ['Archaeopteryx (ancient wing)', 0.9],
+          ['Argentinosaurus (Argentina lizard)', 36.6],
+          ['Baryonyx (heavy claws)', 9.1],
+          ['Brachiosaurus (arm lizard)', 30.5],
+          ['Ceratosaurus (horned lizard)', 6.1],
+          ['Coelophysis (hollow form)', 2.7],
+          ['Compsognathus (elegant jaw)', 0.9],
+          ['Deinonychus (terrible claw)', 2.7],
+          ['Diplodocus (double beam)', 27.1],
+          ['Dromicelomimus (emu mimic)', 3.4],
+          ['Gallimimus (fowl mimic)', 5.5],
+          ['Mamenchisaurus (Mamenchi lizard)', 21.0],
+          ['Megalosaurus (big lizard)', 7.9],
+          ['Microvenator (small hunter)', 1.2],
+          ['Ornithomimus (bird mimic)', 4.6],
+          ['Oviraptor (egg robber)', 1.5],
+          ['Plateosaurus (flat lizard)', 7.9],
+          ['Sauronithoides (narrow-clawed lizard)', 2.0],
+          ['Seismosaurus (tremor lizard)', 45.7],
+          ['Spinosaurus (spiny lizard)', 12.2],
+          ['Supersaurus (super lizard)', 30.5],
+          ['Tyrannosaurus (tyrant lizard)', 15.2],
+          ['Ultrasaurus (ultra lizard)', 30.5],
+          ['Velociraptor (swift robber)', 1.8]]);
+
+        var options = {
+          title: 'Lengths of dinosaurs, in meters',
+          legend: { position: 'none' },
+        };
+
+        var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
     </script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Work',     11],
+          ['Eat',      2],
+          ['Commute',  2],
+          ['Watch TV', 2],
+          ['Sleep',    7]
+        ]);
+
+        var options = {
+          title: 'My Daily Activities',
+          is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+    </script>
+    <script>
+    $(document).ready(function() {
+        // Initialize Dragula for drag-and-drop
+        dragula([document.getElementById('chart')]);
+
+        // Initialize jQuery UI Resizable for resizable divs
+        $('.resizable').resizable();
+
+        // Adjust Google Charts to fit the resized divs
+        function drawCharts() {
+            var data = google.visualization.arrayToDataTable([
+                ['Dinosaur', 'Length'],
+                ['Acrocanthosaurus (top-spined lizard)', 12.2],
+                ['Albertosaurus (Alberta lizard)', 9.1],
+                ['Allosaurus (other lizard)', 12.2],
+                ['Apatosaurus (deceptive lizard)', 22.9],
+                ['Archaeopteryx (ancient wing)', 0.9],
+                ['Argentinosaurus (Argentina lizard)', 36.6],
+                ['Baryonyx (heavy claws)', 9.1],
+                ['Brachiosaurus (arm lizard)', 30.5],
+                ['Ceratosaurus (horned lizard)', 6.1],
+                ['Coelophysis (hollow form)', 2.7],
+                ['Compsognathus (elegant jaw)', 0.9],
+                ['Deinonychus (terrible claw)', 2.7],
+                ['Diplodocus (double beam)', 27.1],
+                ['Dromicelomimus (emu mimic)', 3.4],
+                ['Gallimimus (fowl mimic)', 5.5],
+                ['Mamenchisaurus (Mamenchi lizard)', 21.0],
+                ['Megalosaurus (big lizard)', 7.9],
+                ['Microvenator (small hunter)', 1.2],
+                ['Ornithomimus (bird mimic)', 4.6],
+                ['Oviraptor (egg robber)', 1.5],
+                ['Plateosaurus (flat lizard)', 7.9],
+                ['Sauronithoides (narrow-clawed lizard)', 2.0],
+                ['Seismosaurus (tremor lizard)', 45.7],
+                ['Spinosaurus (spiny lizard)', 12.2],
+                ['Supersaurus (super lizard)', 30.5],
+                ['Tyrannosaurus (tyrant lizard)', 15.2],
+                ['Ultrasaurus (ultra lizard)', 30.5],
+                ['Velociraptor (swift robber)', 1.8]
+            ]);
+
+            var options = {
+                title: 'Lengths of dinosaurs, in meters',
+                legend: { position: 'none' },
+            };
+
+            var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
+            chart.draw(data, options);
+
+            var pieData = google.visualization.arrayToDataTable([
+                ['Task', 'Hours per Day'],
+                ['Work', 11],
+                ['Eat', 2],
+                ['Commute', 2],
+                ['Watch TV', 2],
+                ['Sleep', 7]
+            ]);
+
+            var pieOptions = {
+                title: 'My Daily Activities',
+                is3D: true,
+            };
+
+            var pieChart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+            pieChart.draw(pieData, pieOptions);
+        }
+
+        google.charts.setOnLoadCallback(drawCharts);
+
+        // Redraw charts on resize stop event
+        $('.resizable').on('resize', function(event, ui) {
+            drawCharts();
+        });
+    });
+</script>
+
 </body>
 </html>
