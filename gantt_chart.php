@@ -197,17 +197,30 @@ th, td {
             </div>
         </div>
         <div id="task-view" class="view" style="display:none;">
-    <div class="gantt-chart">
-        <div class="gantt-header">
-            <!-- Date headers will be dynamically generated here -->
-        </div>
-        <div class="gantt-body">
-            <!-- Task bars will be dynamically generated here -->
-        </div>
-    </div>
-</div>
-
-
+   			<table id="task-table">
+				<thead>
+					<tr>
+						<!-- Fill in the dates as needed -->
+						<th>10</th>
+						<th>11</th>
+						<th>12</th>
+						<th>13</th>
+						<th>14</th>
+						<th>15</th>
+						<th>16</th>
+						<th>17</th>
+						<th>18</th>
+						<th>19</th>
+						<th>20</th>
+						<th>21</th>
+						<th>22</th>
+						<th>23</th>                            </tr>
+				</thead>
+				<tbody id="task-table-body">
+					<!-- Rows will be populated by JavaScript -->
+				</tbody>
+            </table>
+		</div>
     </div>
 
     <!-- Add Task Modal -->
@@ -238,7 +251,7 @@ th, td {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="AssignOption"><i class="fas fa-sync"></i> Assign</label>
+                            <label for="AssignOption"><i class="fas fa-user"></i> Assign</label>
                             <select class="form-control" id="AssignOption" name="AssignOption"></select>
                         </div>
                         <button type="submit" class="btn btn-primary">Save</button>
@@ -279,7 +292,7 @@ th, td {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="editAssignOption"><i class="fas fa-sync"></i> Assign</label>
+                            <label for="editAssignOption"><i class="fas fa-user"></i> Assign</label>
                             <select class="form-control" id="editAssignOption" name="AssignOption"></select>
                         </div>
                         <button type="submit" class="btn btn-primary">Save Changes</button>
@@ -321,7 +334,7 @@ th, td {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="showAssignOption"><i class="fas fa-sync"></i> Assign</label>
+                            <label for="showAssignOption"><i class="fas fa-user"></i> Assign</label>
 							<span id="showAssignOption"></span>
                         </div>
                         <button type="button" class="btn btn-danger" id="deleteTaskButton">Delete Task</button>
@@ -399,6 +412,7 @@ th, td {
                 success: function(data) {
                     var tasksTableBody = $('#tasks-table tbody');
                     var dateTableBody = $('#date-table-body');
+                    var taskTableBody = $('#task-table-body');
                     tasksTableBody.empty(); // Clear the table
                     dateTableBody.empty(); // Clear the date table
 
@@ -429,6 +443,8 @@ th, td {
 
                         dateRow += '</tr>';
                         dateTableBody.append(dateRow);
+                        taskTableBody.append(dateRow);
+
                     });
                 }
             });
