@@ -169,8 +169,7 @@ th, td {
         <div class="tabs">
             <button class="tab-button" onclick="showView('resource')">Resource view</button>
             <button class="tab-button" onclick="showView('task')">Task view</button>
-            <button class="tab-button" onclick="showView('chart')">Chart view</button>
-        </div>
+<button class="tab-button" onclick="navigateTo('charts.php')">Chart view</button>        </div>
         <div id="resource-view" class="view">
             <div class="table-container">
                 <div class="left-table">
@@ -240,14 +239,14 @@ th, td {
 				</tbody>
             </table>
 		</div>
-        <div id="chart">
+        <!-- <div id="chart">
             <div id="chart_div" class="draggable resizable" style="width: 400px; height: 300px; border: 1px solid #ccc;"></div>
             <div id="piechart_3d" class="draggable resizable" style="width: 400px; height: 300px; border: 1px solid #ccc;"></div>
-            <!-- <div id="series_chart_div"class="draggable resizable" style="width: 400px; height: 300px; border: 1px solid #ccc;"></div> -->
+             <div id="series_chart_div"class="draggable resizable" style="width: 400px; height: 300px; border: 1px solid #ccc;"></div>
     <div id="donutchart" class="draggable resizable"style="width: 400px; height: 300px; border: 1px solid #ccc;"></div>
-        </div>
+        </div> -->
     </div>
-    </div>
+   
 
     <!-- Add Task Modal -->
     <div class="modal" id="assignModal">
@@ -388,17 +387,16 @@ th, td {
             if (view === 'resource') {
                 resourceView.style.display = 'block';
                 taskView.style.display = 'none';
-                chartView.style.display = 'none';
+                // chartView.style.display = 'none';
             } else if (view === 'task') {
                 resourceView.style.display = 'none';
-                chartView.style.display = 'none';
+                // chartView.style.display = 'none';
                 taskView.style.display = 'block';
-            }else if (view === 'chart') {
-                resourceView.style.display = 'none';
-                taskView.style.display = 'none';
-                chartView.style.display = 'flex';
             }
         }
+        function navigateTo(page) {
+                window.location.href = page;
+            }
         
         // When the user clicks the icon, open the modal
         function openAddTaskModal() {
@@ -542,106 +540,7 @@ th, td {
 	}
 	
 </script>
-    <script type="text/javascript">
-      google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Dinosaur', 'Length'],
-          ['Acrocanthosaurus (top-spined lizard)', 12.2],
-          ['Albertosaurus (Alberta lizard)', 9.1],
-          ['Allosaurus (other lizard)', 12.2],
-          ['Apatosaurus (deceptive lizard)', 22.9],
-          ['Archaeopteryx (ancient wing)', 0.9],
-          ['Argentinosaurus (Argentina lizard)', 36.6],
-          ['Baryonyx (heavy claws)', 9.1],
-          ['Brachiosaurus (arm lizard)', 30.5],
-          ['Ceratosaurus (horned lizard)', 6.1],
-          ['Coelophysis (hollow form)', 2.7],
-          ['Compsognathus (elegant jaw)', 0.9],
-          ['Deinonychus (terrible claw)', 2.7],
-          ['Diplodocus (double beam)', 27.1],
-          ['Dromicelomimus (emu mimic)', 3.4],
-          ['Gallimimus (fowl mimic)', 5.5],
-          ['Mamenchisaurus (Mamenchi lizard)', 21.0],
-          ['Megalosaurus (big lizard)', 7.9],
-          ['Microvenator (small hunter)', 1.2],
-          ['Ornithomimus (bird mimic)', 4.6],
-          ['Oviraptor (egg robber)', 1.5],
-          ['Plateosaurus (flat lizard)', 7.9],
-          ['Sauronithoides (narrow-clawed lizard)', 2.0],
-          ['Seismosaurus (tremor lizard)', 45.7],
-          ['Spinosaurus (spiny lizard)', 12.2],
-          ['Supersaurus (super lizard)', 30.5],
-          ['Tyrannosaurus (tyrant lizard)', 15.2],
-          ['Ultrasaurus (ultra lizard)', 30.5],
-          ['Velociraptor (swift robber)', 1.8]]);
-
-        var options = {
-          title: 'Lengths of dinosaurs, in meters',
-          legend: { position: 'none' },
-        };
-
-        var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
-    </script>
-    <script type="text/javascript">
-      google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['Work',     11],
-          ['Eat',      2],
-          ['Commute',  2],
-          ['Watch TV', 2],
-          ['Sleep',    7]
-        ]);
-
-        var options = {
-          title: 'My Daily Activities',
-          is3D: true,
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
-        chart.draw(data, options);
-      }
-    </script>
-    <script type="text/javascript">
-      google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['Work',     11],
-          ['Eat',      2],
-          ['Commute',  2],
-          ['Watch TV', 2],
-          ['Sleep',    7]
-        ]);
-
-        var options = {
-          title: 'My Daily Activities',
-          pieHole: 0.4,
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-        chart.draw(data, options);
-      }
-    </script>
-
-    <script>
-    $(document).ready(function() {
-        // Initialize Dragula for drag-and-drop
-        dragula([document.getElementById('chart')]);
-       
-        // Initialize jQuery UI Resizable for resizable divs
-        $('#donutchart').resizable();
-
-        
-    });
-</script>
+    
 
 </body>
 </html>
